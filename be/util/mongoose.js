@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/lagou', { useNewUrlParser: true });
+mongoose.connect('mongodb://localhost:27017/cmsdamai', { useNewUrlParser: true });
 
 var db = mongoose.connection;
 
@@ -10,3 +10,4 @@ db.once('open', function() {
 });
 
 module.exports = mongoose
+ssss

@@ -9,6 +9,8 @@ import not_found_template from '../views/404.html'
 // position 控制器
 import position_controller from '../controllers/position/position'
 
+//product页面控制器
+import singer_controller from "../controllers/singer/singer"
 var router = null
 
 // 启动路由的方法
@@ -30,7 +32,7 @@ const _init = () => {
     // 职位列表路由
     router.route('/position-list', position_controller.list)
     router.route('/position-update', position_controller.update)
-
+    router.route("/singer-list",singer_controller.list)
 
 
     // 404路由

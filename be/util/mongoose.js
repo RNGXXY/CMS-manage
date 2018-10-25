@@ -9,4 +9,4 @@ db.once('open', function() {
   // we're connected!
 });
 
-module.exports = mongoose
+module.exports = mongoose;

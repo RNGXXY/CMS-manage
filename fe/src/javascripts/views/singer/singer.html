@@ -6,6 +6,7 @@
       <div class="box-tools">
         <div class="input-group input-group-sm" style="width: 150px;">
           <input type="text" id="keywords" value="" name="pos_search" class="form-control pull-right" placeholder="搜索">
+  
           <div class="input-group-btn">
             <button type="button" id="possearch" class="btn btn-default"><i class="fa fa-search"></i></button>
           </div>
@@ -14,19 +15,19 @@
     </div>
     <!-- /.box-header -->
     <div class="box-body">
-      {{if data.length>0}}
+      
       <table class="table table-bordered position-list__tabel">
         <tr>
           <th style="width: 10px">#</th>
-          <th>公司Logo</th>
-          <th>公司名称</th>
-          <th>职位名称</th>
-          <th>工作地点</th>
-          <th>发布时间</th>
-          <th>岗位薪资</th>
-          <th style="width: 140px">操作</th>
+          <th>图片</th>
+          <th>名字</th>
+          <th>国籍</th>
+          <th>名族</th>
+          <th>经纪公司</th>
+          <th>代表作品</th>
+          <th>职业</th>
+          <th >操作</th>
         </tr>
-        {{ each data }}
         <tr data-id="{{ $value._id }}">
           <td>{{ $index + 1 }}</td>
           <td><img width="50" height="50" src="http://10.9.189.194:3000{{$value.companyLogo}}"
@@ -37,6 +38,7 @@
           <td>{{ $value.city }}</td>
           <td>{{ $value.formatTime }}</td>
           <td>{{ $value.salary }}</td>
+          <td></td>
           <td>
             <button class="btn btn-sm btn-primary pos-update" posid="" pageno="" keywords=""><span class="fa fa-edit"></span>
               修改</button>
@@ -61,7 +63,7 @@
             <!-- <h3 class="box-title">Blank Box</h3> -->
           </div>
           <div class="box-body">
-              当前没有职位信息，快去添加吧...
+              当前没有歌手信息，快去添加吧...
           </div>
           <!-- /.box-body -->
         </div>

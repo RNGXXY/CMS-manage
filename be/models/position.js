@@ -1,7 +1,7 @@
 const mongoose = require('../util/mongoose')
 const Moment = require('moment') // 时间格式化
-const fs = require('fs-extra') // 时间格式化
-const PATH = require('path') // 时间格式化
+const fs = require('fs-extra') // 文件模块
+const PATH = require('path') // 路径
 
 // 创建的Model模型 （collection）
 var PositionModel = mongoose.model('positions', new mongoose.Schema({

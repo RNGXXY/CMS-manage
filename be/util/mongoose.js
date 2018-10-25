@@ -10,4 +10,3 @@ db.once('open', function() {
 });
 
 module.exports = mongoose
-ssss

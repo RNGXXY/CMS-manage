@@ -1,5 +1,5 @@
 var express = require('express');
-var router = express.Router();
+var router = express.Router();//express自带的路由工具
 var fileUpload = require('../middlewares/fileUpload')
 var position_controller = require('../controllers/position')
 

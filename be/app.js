@@ -4,11 +4,11 @@ var path = require('path');
 var cookieParser = require('cookie-parser'); // 解析cookie
 var logger = require('morgan');
 
-var { version } = require('./config')
+var { version } = require('./config')//加上版本号的
 
-// 路由工具
-var indexRouter = require('./routes/index');
+// 路由工具，在routes模块，express框架自带的路由工具
 var positionRouter = require('./routes/position');
+var singerRouter = require("./routes/singer");
 
 // 应用程序
 var app = express();
@@ -30,9 +30,8 @@ app.use(cookieParser());// 解析cookie
 app.use(express.static(path.join(__dirname, 'public')));
 
 // 启用路由工具
-app.use('/', indexRouter);
 app.use('/api/'+ version +'/position', positionRouter);
-
+app.use("/api/"+version+"/singer",singerRouter);
 
 
 // catch 404 and forward to error handler

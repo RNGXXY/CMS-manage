@@ -4,8 +4,13 @@ const movie_model = require('../models/movie')
 // list控制器
 const list = async (req, res) => {
     // res.set('content-type', 'application/json; charset=utf8')
-    // res.send(JSON.stringify({a:1}))
-    let _data = await movie_model.list()
+    let _data = await movie_model.list(req.query)
+    handleData(_data, res, 'movie') //'movie'是字符串模板，后端采用的是ejx模板
+}
+
+// listall控制器
+const listall = async (req, res) => {
+    let _data = await movie_model.listall()
     handleData(_data, res, 'movie') //'movie'是字符串模板，后端采用的是ejx模板
 }
 
@@ -35,9 +40,8 @@ const update = async (req,res)=>{
 
 //删除一条数据
 const remove = async (req,res)=>{
-    console.log(req.query)
     // res.set('content-type', 'application/json; charset=utf8')
-    let _data = await movie_model.remove(req.query)     
+    let _data = await movie_model.remove(req.body)     
     handleData(_data,res,'movie')   
 }
 
@@ -45,6 +49,7 @@ const remove = async (req,res)=>{
 
 module.exports = {
     list,
+    listall,
     save,
     listone,
     update,

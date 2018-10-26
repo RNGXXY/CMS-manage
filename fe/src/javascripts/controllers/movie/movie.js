@@ -14,17 +14,24 @@ const lead =(req,res)=>{
 
 //list视图
 const list = async(req,res,next)=>{
+    req.query = req.query || {} // 防止没有参数的时候，req.query为null
+    
+    let _page = { // 页面信息， 当点击了分页器按钮后，页面url就会变化，然后list控制器就会重新执行，重新获取数据再渲染
+        pageNo: req.query.pageNo,
+        pageSize: req.query.pageSize,
+        search: req.query.search
+    }
     //编译模板
     let _html = template.render(movie_list_tempalte, {    //art-template的template.render(模板，数据)
-        data: (await movie_model.list()).data
+        data: (await movie_model.list(_page)).data
     })
     res.render(_html)
     //给添加按钮，绑定事件
-    bindListEvent();
+    bindListEvent(_page);
 }
 
 //list的事件绑定
-const bindListEvent = ()=>{
+const bindListEvent = (_page)=>{
     $('.movie-list #addbtn').on('click',function(){
         //添加按钮点击跳转到添加save路由  
         bus.emit('go','/movie-save')
@@ -34,24 +41,38 @@ const bindListEvent = ()=>{
         let id = $(this).parents('tr').data('id')
         //router.go('/user/123?name=hwen', { mes: 'hallo world'})   
         //router.go的隐式传参
-
         // bus.on('go', (path, body = {}) =>  router.go(path, body) )
         //{ id }相当于给body对象添加了一个id的属性，id:id(es6语法直接写id)，当触发emit的时候，body身上的id就起作用了
         bus.emit('go','/movie-update', { id }) 
     })
 
-    //handleRemovePosition不是handleRemovePosition（）
-    $('.pos-remove').on('click',handleRemovePosition)
+    //handleRemovemovie不是handleRemovemovie（）
+    $('.pos-remove').on('click', function () {
+        handleRemovemovie.bind(this,_page)()
+    })
+
+    //根据关键字搜索数据
+    $('#possearch').on('click',async function(req,res){
+        let keywords = $('#keywords').val();
+        //上面已近配好了searc，所以只需要根据关键字跳转就可以了
+        bus.emit('go', '/movie-list?search='+keywords)
+    })
 }
 //删除事件
-const handleRemovePosition = async function(){
+const handleRemovemovie = async function(_page){
     let id = $(this).parents('tr').data('id')
     let _data = await movie_model.remove({ id:id })
-    handleToastByData(_data,{
-        isReact:false,
-        success:(data)=>{
-            //data.removeId后端返回的results中有个removeId属性
-            bus.emit('go', '/movie-list?_='+data.removeId)
+   // 如果此页种只有一条数据，说明删除之后需要跳转到前一页 
+    // 删除的时候此页还有多少条数据
+    let trs = $('.movie-list__tabel tr[data-id]')
+    // 如果只剩一个，将pageNo-1
+    let _pageNo = trs.length > 1 ? _page.pageNo : (_page.pageNo - (_page.pageNo > 1 ? 1 : 0))
+    
+    handleToastByData(_data, {
+        isReact: false,
+        success: (data) => {
+            // 删除成功后，i依然需要将pageNo带上，否则，删除后，重新渲染的时候会回到默认的第一页
+            bus.emit('go', '/movie-list?pageNo='+_pageNo+'&_='+data.removeId)
         }
     })
 }
@@ -63,7 +84,7 @@ const handleRemovePosition = async function(){
 const save = (req,res,next)=>{ 
     res.render(movie_save_tempalte)
     bindSaveEvent();
-    
+   
 }
 
 //save的事件绑定
@@ -74,6 +95,12 @@ const bindSaveEvent = ()=>{
     })
     $('.movie-save #save-moive-form').submit(handleSaveSubmit)
     
+    $("#movieLogo").on('change',function(){
+        let imgdom = $("#portrait");
+        let imgurl = window.URL.createObjectURL(this.files[0]);
+        imgdom.attr('src',imgurl)
+        imgdom.show()
+    })
 }
 
 // 开关防止多次提交
@@ -89,7 +116,7 @@ const handleSaveSubmit =  async function(e){
     // let _params = qs.parse($(this).serialize())
 
     let result = await movie_model.save()
-
+    
     _isLoading = false
 
     handleToastByData(result)
@@ -98,9 +125,10 @@ const handleSaveSubmit =  async function(e){
     // }})
 }
 
+
 //update视图
 const update = async (req,res)=>{
-    let { id } = req.body
+    let { id } = req.body;
     let html = template.render(movie_update_tempalte, {
         data: (await movie_model.listone({ id })).data  // 获取到列表数据
     })
@@ -116,16 +144,16 @@ const bindUpdateEvent =()=>{
         bus.emit('go', '/movie-list')
     })
 
-    $('.movie-update #update-form').submit(handleUpdateSubmit)
+    $('.movie-update #update-movie-form').submit(handleUpdateSubmit)
 }
 
 //update的表单提交
 const handleUpdateSubmit = async function(e){
     e.preventDefault();
     //用了一个空的input来保存了id
-    let _datastr = $(this).serialize()
-    let _data = qs.parse(_datastr)
-    let _results = await movie_model.update(_data)  
+    // let _datastr = $(this).serialize()
+    // let _data = qs.parse(_datastr)
+    let _results = await movie_model.update()  
     handleToastByData(_results)
 }
 

@@ -1,8 +1,9 @@
 
 //提供列表数据
-const list = () => {
+const list = (page) => {
     return $.ajax({
         url: '/api/v1/movie/list', 
+        data:page,
         success:(results) => {
            return results
         }
@@ -35,14 +36,16 @@ const listone = (data)=>{
 }
 
 //update
-const update = (data) => {
-    return $.ajax({
-        url: '/api/v1/movie/update',
-        type: 'post',
-        data,
-        success:(results) => {
-           return results
-        }
+const update = () => {
+    return new Promise((resolve) => {
+        $('.movie-update #update-movie-form').ajaxSubmit({
+            url: '/api/v1/movie/update',
+            type: 'POST',
+            success: (results) => {
+                console.log(results)
+                resolve(results)
+            }
+        })
     })
 }
 
@@ -51,6 +54,7 @@ const remove = (data)=>{
     return $.ajax({
         url:'/api/v1/movie/remove',
         data,
+        type:'delete',
         success:(results)=>{
             return results
         }

@@ -3,7 +3,9 @@ const fs = require('fs-extra') // 文件模块
 const PATH = require('path') // 路径
 
 // 创建的Model模型 （collection）
+//在本地数据库中创建一个document
 var MovieModel = mongoose.model('movies', new mongoose.Schema({
+    //定义集合中存储的数据名，数据格式
     movieName: String,
     directorName: String,
     starName: String,
@@ -50,7 +52,6 @@ const save = (body) => {
 
 // 返回一个数据
 const listone = ({ id }) => {
-    console.log(id)
     return MovieModel.findById(id).
         then((results) => {     //返回数据库的数据
             return results
@@ -74,9 +75,22 @@ const update = (body)=>{
     }) 
 }   
 
+//删除一条数据
+const remove = async ({ id })=>{
+    let _row = await listone({ id })    //用listone从数据库中获得一条数据的信息
+    return MovieModel.deleteOne({ _id:id }).then((results)=>{
+        results.removeId = id   //这个id是返回给前端用的
+        fs.removeSync(PATH.resolve(__dirname,'../public'+_row.movieLogo))
+        return results
+    }).catch((err)=>{
+        return false
+    })
+}
+
 module.exports = {
     list,
     save,
     listone,
-    update
+    update,
+    remove
 }

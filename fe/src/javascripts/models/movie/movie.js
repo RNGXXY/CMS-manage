@@ -46,6 +46,21 @@ const update = (data) => {
     })
 }
 
+// remove
+const remove = (data)=>{
+    return $.ajax({
+        url:'/api/v1/movie/remove',
+        data,
+        success:(results)=>{
+            return results
+        }
+    })
+}
+
 export default {
-    list,save,listone,update
+    list,
+    save,
+    listone,
+    update,
+    remove
 }

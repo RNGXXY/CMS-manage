@@ -40,10 +40,23 @@ const bindListEvent = ()=>{
         bus.emit('go','/movie-update', { id }) 
     })
 
-
     //handleRemovePosition不是handleRemovePosition（）
-    //$('.pos-remove').on('click',handleRemovePosition)
+    $('.pos-remove').on('click',handleRemovePosition)
 }
+//删除事件
+const handleRemovePosition = async function(){
+    let id = $(this).parents('tr').data('id')
+    let _data = await movie_model.remove({ id:id })
+    handleToastByData(_data,{
+        isReact:false,
+        success:(data)=>{
+            //data.removeId后端返回的results中有个removeId属性
+            bus.emit('go', '/movie-list?_='+data.removeId)
+        }
+    })
+}
+
+
 
 
 //save视图的控制器
@@ -88,7 +101,6 @@ const handleSaveSubmit =  async function(e){
 //update视图
 const update = async (req,res)=>{
     let { id } = req.body
-    console.log(id)
     let html = template.render(movie_update_tempalte, {
         data: (await movie_model.listone({ id })).data  // 获取到列表数据
     })

@@ -17,17 +17,21 @@ const list = async(req,res,next)=>{
     req.query = req.query || {} // 防止没有参数的时候，req.query为null
     
     let _page = { // 页面信息， 当点击了分页器按钮后，页面url就会变化，然后list控制器就会重新执行，重新获取数据再渲染
-        pageNo: req.query.pageNo,
-        pageSize: req.query.pageSize,
-        search: req.query.search
+        pageNo: req.query.pageNo || 1,
+        pageSize: req.query.pageSize || 5,
+        search: req.query.search || ''
     }
     //编译模板
     let _html = template.render(movie_list_tempalte, {    //art-template的template.render(模板，数据)
         data: (await movie_model.list(_page)).data
     })
     res.render(_html)
+    
     //给添加按钮，绑定事件
     bindListEvent(_page);
+
+    //搜索框的字
+    $('#keywords').val(_page.search)
 }
 
 //list的事件绑定
@@ -37,6 +41,7 @@ const bindListEvent = (_page)=>{
         bus.emit('go','/movie-save')
     })
 
+    //跳转到更新页面
     $('.movie-list .pos-update').on('click', function () {
         let id = $(this).parents('tr').data('id')
         //router.go('/user/123?name=hwen', { mes: 'hallo world'})   
@@ -48,31 +53,40 @@ const bindListEvent = (_page)=>{
 
     //handleRemovemovie不是handleRemovemovie（）
     $('.pos-remove').on('click', function () {
-        handleRemovemovie.bind(this,_page)()
+        handleRemovemovie.call(this,_page)
     })
 
     //根据关键字搜索数据
     $('#possearch').on('click',async function(req,res){
-        let keywords = $('#keywords').val();
-        //上面已近配好了searc，所以只需要根据关键字跳转就可以了
-        bus.emit('go', '/movie-list?search='+keywords)
+        let _search = $('#keywords').val();
+        let _params = {
+            search:_search,
+            pageNo:1
+        }
+
+        //上面已近配好了search，所以只需要根据关键字跳转就可以了
+        // $.param()是jquery的一个方法，序列化对象，返回字符串：a=1900&b=1900
+        bus.emit('go', `/movie-list?${$.param(_params)}`)
     })
 }
 //删除事件
 const handleRemovemovie = async function(_page){
     let id = $(this).parents('tr').data('id')
-    let _data = await movie_model.remove({ id:id })
+    let _data = await movie_model.remove({ id:id,..._page })
    // 如果此页种只有一条数据，说明删除之后需要跳转到前一页 
     // 删除的时候此页还有多少条数据
-    let trs = $('.movie-list__tabel tr[data-id]')
+    // let trs = $('.movie-list__tabel tr[data-id]')
     // 如果只剩一个，将pageNo-1
-    let _pageNo = trs.length > 1 ? _page.pageNo : (_page.pageNo - (_page.pageNo > 1 ? 1 : 0))
+    // let _pageNo = trs.length > 1 ? _page.pageNo : (_page.pageNo - (_page.pageNo > 1 ? 1 : 0))
     
     handleToastByData(_data, {
         isReact: false,
         success: (data) => {
+            let _pageNo = _page.pageNo
+            console.log(1111,data.isReact)
+            _pageNo -= data.isReact ? 1 : 0
             // 删除成功后，i依然需要将pageNo带上，否则，删除后，重新渲染的时候会回到默认的第一页
-            bus.emit('go', '/movie-list?pageNo='+_pageNo+'&_='+data.removeId)
+            bus.emit('go', '/movie-list?pageNo='+_pageNo+'&_='+data.removeId+'&search='+_page.search)
         }
     })
 }
@@ -142,6 +156,13 @@ const bindUpdateEvent =()=>{
     // 返回按钮逻辑
     $('.movie-update #back').on('click', function () {
         bus.emit('go', '/movie-list')
+    })
+
+    $("#movieLogo").on('change',function(){
+        let imgdom = $("#portrait");
+        let imgurl = window.URL.createObjectURL(this.files[0]);
+        imgdom.attr('src',imgurl)
+        imgdom.show()
     })
 
     $('.movie-update #update-movie-form').submit(handleUpdateSubmit)

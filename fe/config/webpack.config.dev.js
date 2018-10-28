@@ -8,6 +8,7 @@ module.exports = {
     //入口,打包的入口文件，模块化的跟模块
     entry :{
         main:['./src/javascripts/app'],
+        admin:['./src/javascripts/admin'],
         // main:['./confog/handle_error',./src/javascripts/app'],
     // entry : ['./src/javascripts/app','./src/javascripts/xx'],
     // entry : {
@@ -43,9 +44,16 @@ module.exports = {
         new HtmlWebpackPlugin({     
             
             template:'./src/index.html',    //
-            filename:'index.html'   //输出的文件名
-            //chunks:['main']   //指定引用那个html文件，如果不知道，在多页面中，每个页面都会引入所有的html
+            filename:'index.html' ,  //输出的文件名
+            chunks:['main']   //指定引用那个html文件，如果不知道，在多页面中，每个页面都会引入所有的html
         }),
+        new HtmlWebpackPlugin({     
+            
+            template:'./src/admin.html',    //
+            filename:'admin.html',   //输出的文件名
+            chunks:['admin']   //指定引用那个html文件，如果不知道，在多页面中，每个页面都会引入所有的html
+        }),
+
 
         //将静态资源目录复制到开发目录中
         new CopyWebpackPlugin([{

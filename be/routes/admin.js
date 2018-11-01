@@ -10,7 +10,7 @@ const resApplicationJson = (req,res,next)=>{
     next()
 }
 
-//为movie中的所有路由都使用这个中间件
+//为admin中的所有路由都使用这个中间件
 router.use(resApplicationJson)
 
 

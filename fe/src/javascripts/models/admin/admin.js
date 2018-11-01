@@ -1,3 +1,4 @@
+// 注册
 const signup = (data)=>{
     return $.ajax({
         url:'/api/v1/admin/signup',
@@ -9,12 +10,15 @@ const signup = (data)=>{
     })
 }
 
+// 登录
 const signin = (data)=>{
+    console.log(1)
     return $.ajax({
         url:'/api/v1/admin/signin',
         type:'post',
         data,
         success:((results)=>{
+            console.log(2,results)
             return results 
         })
     })

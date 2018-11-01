@@ -1,7 +1,10 @@
 
 const mongoose = require('../util/mongoose')
-const bcrypt = require('bcrypt')
+// hash是bcrypt中的一个方法，分到util里去了，用于加密，将用于原来的密码进行加密，存入数据库
 const { hash } = require('../util')
+
+// 用于加密，在这里引入bcrypt是为了在用户登录的时候再生成一个加密密码，拿去与数据库中用户原来的密码进行比对，判断登录密码的正确与否
+const bcrypt = require('bcrypt')
 
 
 // 创建的Model模型 （collection）

@@ -1,5 +1,5 @@
 import admin_template from '../../views/admin-forms.html'
-import admin_modedl from '../../models/admin/admin'
+import admin_model from '../../models/admin/admin'
 import qs from 'querystring'
 import handleToastByData from '../../util/handleToastByData';
 import toast from '../../util/toast'
@@ -21,31 +21,32 @@ const bindEvent = ()=>{
 
     //注册表单
     $('#admin-content').on('submit','#signup-form',async function(e){
-        e.preventDefault();
+        e.preventDefault()
         let _params = $(this).serialize()
-        let _result = await admin_modedl.signup(_params)
-      
-        switch ( _result.status ){
-            case 500 : toast('失败，服务器除了问题'); break;
-            case 201 : toast('用户名已存在'); break;
-            default : toast('注册成功');
-            render('signin');
-            break; 
-
-        } 
+        let _result = await admin_model.signup(qs.parse(_params))
+        
+        switch ( _result.status ) {
+            case 500: toast('失败，服务器出了问题'); break;
+            case 201:  toast('用户已存在'); break;
+            default: 
+                toast('注册成功');
+                render('signin')
+                break;
+        }
     })
 
      //登录
      $('#admin-content').on('submit','#signin-form',async function(e){
-        e.preventDefault();
+        e.preventDefault()
         let _params = $(this).serialize()
-        let _result = await admin_modedl.signin(_params)
-        console.log(_result)
+        $.cookie('connect.sid', { expires: -1 })
+        let _result = await admin_model.signin(qs.parse(_params))
         switch ( _result.status ) {
             case 203: toast('密码错误'); break;
             case 202:  toast('用户不存在'); break;
             default: 
-                localStorage.user = qs.parse(_params).username
+                localStorage.token = _result.data.token
+                // console.log(_result.data.token)
                 window.location.href = "/"; 
             break;
         }

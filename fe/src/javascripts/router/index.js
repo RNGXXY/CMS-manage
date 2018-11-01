@@ -15,6 +15,8 @@ import singer_controller from "../controllers/singer/singer"
 //movie页面控制器
 import movie_controller from "../controllers/movie/movie"
 
+//最高权限页面控制器
+import performer_controller from "../controllers/performer/performer"
 var router = null
 
 // 启动路由的方法
@@ -43,6 +45,9 @@ const _init = () => {
     router.route("/movie-list",movie_controller.list)
     router.route("/movie-save",movie_controller.save)
     router.route("/movie-update",movie_controller.update)
+
+    // 最高权限路由
+    router.route("/performer",performer_controller.render)
 
 
     // 404路由

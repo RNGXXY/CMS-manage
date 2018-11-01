@@ -1,5 +1,8 @@
 
 const admin_model = require('../models/admin')
+const jwt = require('jsonwebtoken')
+const fs = require('fs')
+const PATH = require('path')
 const { handleData } = require('../util')
 
 // 注册
@@ -25,9 +28,7 @@ const signup = async (req,res,next)=>{
 // 登录
 const signin = async (req,res,next)=>{
     //先判断有没有这个用户
-    console.log(req.body)
     let _judge_result = await admin_model.judgeUserByUsername(req.body.username)
-    console.log(_judge_result)
     //_judge_result返回的是一个数组，数组中存着一个个数据对象
     if ( !!_judge_result.length ) { // 如果有这个用户
         // 登录
@@ -35,7 +36,43 @@ const signin = async (req,res,next)=>{
         // 如果前端利用完整的表单提交逻辑的话，可以利用res.redirect告知浏览器进行跳转
         // res.redirect('/')
         if (_data) {
-            res.render('admin', { code: 200, data: JSON.stringify('success') })
+            // 1、session
+            // 登录成功后，保存session, 注意再这里存的东西不是为了给前端用的， 1. 用来验证 2. 存储一些用户信息做其他判断
+            // req.session.userinfo={
+            //     userid:_judge_result[0]._id,    //id
+            //     level:_judge_result[0].level || 3   //等级
+            // }
+
+            // 2、对称加密
+            // // 要加密的内容
+            // let _payload = {
+            //     userid:_judge_result[0].id,
+            //     username:_judge_result[0].username,
+            //     level:3
+            // }
+            // // 密钥
+            // let _cert = 'hello'
+            // // 加密的结果
+            // var _token = jwt.sign(_payload,_cert);
+
+
+            // 3、非对称加密
+            // 生成私钥：ssh-keygen -t rsa -b 2048 -f private.key
+            // 生成公钥：openssl rsa -in private.key -pubout -outform PEM -out public.key
+            // 要加密的内容
+            let _payload = {
+                userid:_judge_result[0].id,
+                username:_judge_result[0].username,
+                level:3
+            }
+            // 取出来私钥
+            let _private = fs.readFileSync(PATH.resolve(__dirname, '../keys/private.key'))
+            // 加密结果：内容，密钥，加密算法
+            var _token = jwt.sign(_payload,_private, { algorithm: 'RS256'})
+
+            res.render('admin', { code: 200, data: JSON.stringify({
+                token:_token
+            }) })
         } else {
             res.render('admin', { code: 203, data: JSON.stringify('密码错误') })
         }

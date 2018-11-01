@@ -83,7 +83,6 @@ const handleRemovemovie = async function(_page){
         isReact: false,
         success: (data) => {
             let _pageNo = _page.pageNo
-            console.log(1111,data.isReact)
             _pageNo -= data.isReact ? 1 : 0
             // 删除成功后，i依然需要将pageNo带上，否则，删除后，重新渲染的时候会回到默认的第一页
             bus.emit('go', '/movie-list?pageNo='+_pageNo+'&_='+data.removeId+'&search='+_page.search)

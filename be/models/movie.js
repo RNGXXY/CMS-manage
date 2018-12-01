@@ -58,8 +58,8 @@ const listall = (_query = {}) => {
     //_query，查找数据的规则，eg：年龄大于10……，为空则全部返回
     //Model.fin()查询数据库
     //mongodb的方法：sort({createTime:-1})数据倒序返回
-    return MovieModel.find(_query).sort({createTime:-1})
-        then((results) => {     //返回数据库的数据
+    return MovieModel.find(_query).sort({createTime:-1}) 
+        .then((results) => {     //返回数据库的数据
             return results
         }).
         catch((err) => {

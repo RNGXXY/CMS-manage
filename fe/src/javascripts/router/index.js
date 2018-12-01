@@ -14,10 +14,19 @@ import singer_controller from "../controllers/singer/singer"
 
 //movie页面控制器
 import movie_controller from "../controllers/movie/movie"
+// page-header 控制器
+import page_header_controller from '../controllers/page-header/page-header'
+
+// page-header model
+import page_header_model from '../models/page-header/page-header'
+
 
 //最高权限页面控制器
-import performer_controller from "../controllers/performer/performer"
+import performer_controller from "../controllers/performer/performer"  
 var router = null
+
+// 记录上一次路由跳转的url
+var prevUrl = ''
 
 // 启动路由的方法
 const _init = () => {
@@ -28,6 +37,9 @@ const _init = () => {
     router.use((req, res, next) => {
         _activeLink(req.route) 
     })
+    
+    // 保证都能匹配到，中间都能执行 
+    router.route('/', renderPageHeader)
 
     // 开始匹配各个路由
     router.route('/home', (req, res, next) => { // 当路由切换进来的时候执行
@@ -73,6 +85,14 @@ const _init = () => {
 
     // 给按钮添加事件
     _navLink()
+}
+
+// 渲染页面头部
+const renderPageHeader = ( req, res, next ) => {
+    // 这里的prevUrl就是上一次的URL
+    page_header_controller.render(page_header_model.pageHeaderInfo(req.url, prevUrl))
+    // 已经进入到当前路由了，将上一次路由改成当前的路由
+    prevUrl = req.url
 }
 
 // 给导航按钮添加点击事件

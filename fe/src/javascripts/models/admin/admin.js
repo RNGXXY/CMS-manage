@@ -18,7 +18,6 @@ const signin = (data)=>{
         type:'post',
         data,
         success:((results)=>{
-            console.log(2,results)
             return results 
         })
     })

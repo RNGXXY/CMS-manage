@@ -27,11 +27,13 @@ const signup = async (req,res,next)=>{
 
 // 登录
 const signin = async (req,res,next)=>{
-    //先判断有没有这个用户
+    //先判断有没有这个用户，有的话返回这个用户的信息
     let _judge_result = await admin_model.judgeUserByUsername(req.body.username)
     //_judge_result返回的是一个数组，数组中存着一个个数据对象
     if ( !!_judge_result.length ) { // 如果有这个用户
-        // 登录
+        // 登录验证，
+        // req.body.password：这次请求发过来的密码，_judge_result[0]：数据库中保存的加密后的密码，
+        // _data的值为true/false
         let _data = await admin_model.signin(req.body.password, _judge_result[0])
         // 如果前端利用完整的表单提交逻辑的话，可以利用res.redirect告知浏览器进行跳转
         // res.redirect('/')
@@ -59,7 +61,7 @@ const signin = async (req,res,next)=>{
             // 3、非对称加密
             // 生成私钥：ssh-keygen -t rsa -b 2048 -f private.key
             // 生成公钥：openssl rsa -in private.key -pubout -outform PEM -out public.key
-            // 要加密的内容
+            // 要加密的内容:id,username,安全级别
             let _payload = {
                 userid:_judge_result[0].id,
                 username:_judge_result[0].username,
@@ -69,10 +71,11 @@ const signin = async (req,res,next)=>{
             let _private = fs.readFileSync(PATH.resolve(__dirname, '../keys/private.key'))
             // 加密结果：内容，密钥，加密算法
             var _token = jwt.sign(_payload,_private, { algorithm: 'RS256'})
-
+            // 将加密后的token返回给前端
             res.render('admin', { code: 200, data: JSON.stringify({
                 token:_token
-            }) })
+                }) 
+            })
         } else {
             res.render('admin', { code: 203, data: JSON.stringify('密码错误') })
         }

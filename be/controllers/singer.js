@@ -6,7 +6,6 @@ const singer_models = require("../models/singer");
 const list =async (req,res)=>{
     res.set("content-type","application/json;charset = utf8")
     let _listData = await singer_models.list();
-    console.log(_listData);
     handleData(_listData,res,"singer");
 }
 

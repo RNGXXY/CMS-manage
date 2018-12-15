@@ -71,7 +71,7 @@ module.exports = {
             },
             {
                 test: /\.(css|scss)$/,  //只处理模块中的css/scss
-                use: [ // loader从后向前使用
+                use: [ // loader从后向前使用，sass→css→style
                     { loader: 'style-loader' },
                     { loader: 'css-loader' },                    
                     { loader: 'sass-loader' }                    
@@ -90,7 +90,7 @@ module.exports = {
             },
             {
                 test: /\.js$/,
-                exclude: /(node_modules|bower_components)/,
+                exclude: /(node_modules|bower_components)/,     // 不管他们
                 use: {
                   loader: 'babel-loader',
                   options: {

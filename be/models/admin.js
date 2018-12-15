@@ -38,8 +38,9 @@ const signup =async ({ username, password, nickname }) => {
 // 登录，获取数据库，比对用户输入的密码和存入数据库中此用户的密码
 // pwd:用户传入的密码
 // password 数据库中此用户加密过的密码
-// return 的结果是 是否匹配
+// return 的结果是true/false, 是否匹配
 const signin = async (pwd, { password }) => {
+    // bcrypt.compare()对比密码是否正确
     return bcrypt.compare(pwd, password)
 }
 
@@ -47,6 +48,7 @@ const signin = async (pwd, { password }) => {
 const judgeUserByUsername = (username) => {
     return UserModel
     .find({ username })
+    // 这个方法返回的是一个数组
     .then((results) => {
         return results
     })

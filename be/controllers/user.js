@@ -1,8 +1,8 @@
 
 const user_model = require('../models/user')
 const isSignIn = (req,res,next)=>{
-    // 判断是否登录
-
+    // 判断是否在登录状态
+    // 在中间件中做过判断了
     res.render('user',{
         code:200,
         data:JSON.stringify({mas:'用户已登录'})
@@ -11,6 +11,7 @@ const isSignIn = (req,res,next)=>{
 
 // 返回用户信息
 const info =async (req,res,next)=>{
+    // req.token是中间件传过来的，中间件已经做好判断了
     let _result = await  user_model.getUserInfoById(req.token.userid)
 
     res.render('user',{

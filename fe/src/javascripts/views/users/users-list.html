@@ -1,0 +1,68 @@
+<div class="box users-list">
+    <div class="box-header with-border">
+      <h3 class="box-title">
+        <button id="addbtn" class="btn btn-block btn-success"><span class="fa fa-plus-circle"></span> 添加</button>
+      </h3>
+      <div class="box-tools">
+        <div class="input-group input-group-sm" style="width: 150px;">
+          <input type="text" id="keywords" value="" name="pos_search" class="form-control pull-right" placeholder="搜索">
+          <div class="input-group-btn">
+            <button type="button" id="possearch" class="btn btn-default"><i class="fa fa-search"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+      {{if data.items.length>0}}
+      <table class="table table-bordered users-list__tabel">
+        <tr>
+          <th style="width: 10px">#</th>
+          <th>用户头像</th>
+          <th>用户名称</th>
+          <th>用户ID</th>
+          <th>用户电话</th>
+          <th style="width: 140px">操作</th>
+        </tr>
+        {{ each data.items }}
+        <tr data-id="{{ $value._id }}">
+          <td>{{ $index + 1 }}</td>
+          <td><img width="50" height="50" src="http://localhost:3000{{$value.usersPic}}"
+              alt=""></td>
+          <td>{{ $value.userName }}           
+          <td>{{ $value.userId }}</td>
+          <td>{{ $value.userPhone }}</td>
+          <!-- <td>{{ $value.usersType }}</td> -->
+          <td>
+            <button class="btn btn-sm btn-primary pos-update" posid="" pageno="" keywords=""><span class="fa fa-edit"></span>
+              修改</button>
+            <button class="btn btn-sm btn-danger pos-remove" posid="" pageno="" pagecount="" pagesize="" keywords=""
+              filename=""><span class="fa fa-remove"></span> 删除</button>
+          </td>
+        </tr>
+        {{ /each }}
+      </table>
+      
+    </div>
+    <div class="box-footer clearfix">
+      <ul class="pagination pagination-sm no-margin pull-right">
+        <li><a href="#/users-list?search=<%= data.pageInfo.search %>&pageNo=<%= (data.pageInfo.pageNo > 1) ? data.pageInfo.pageNo - 1 : data.pageInfo.pageNo%>">&laquo;</a></li>
+        <% for(var i = 0; i < data.pageInfo.totalPage; i++){ %>
+          <li class="{{if data.pageInfo.pageNo == i+1}}active{{/if}}"><a href="#/users-list?search=<%= data.pageInfo.search %>&pageNo=<%= i+1 %>"><%= i+1 %></a></li>
+        <% } %>
+        <li><a href="#/users-list?search=<%= data.pageInfo.search %>&pageNo=<%= (data.pageInfo.pageNo < data.pageInfo.totalPage) ? ( ~~data.pageInfo.pageNo + 1) : data.pageInfo.totalPage  %>">&raquo;</a></li>
+      </ul>
+    </div>
+    {{ else }}
+      <div class="box box-default">
+          <div class="box-header with-border">
+            <!-- <h3 class="box-title">Blank Box</h3> -->
+          </div>
+          <div class="box-body">
+              当前没有用户信息，快去添加吧...
+          </div>
+          <!-- /.box-body -->
+        </div>
+      {{ /if }}
+  </div>
+  <!-- /.box -->

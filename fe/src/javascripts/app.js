@@ -1,5 +1,5 @@
 // 引入样式
-import '../stylesheets/app.scss'
+import './stylesheets/app.scss'
 // 引入路由
 import router from './router'
 // 主体结构视图

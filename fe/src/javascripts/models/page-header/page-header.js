@@ -11,6 +11,29 @@ const pageHeaderInfo = (url, prevUrl) => {
             title: '首页',
             list: []
         },
+        '/users-list': {
+            title: '用户管理',
+            description: '用户列表',
+            list: [
+                { text: '用户列表' }
+            ]
+        },
+        '/users-save': {
+            title: '用户管理',
+            description: '添加用户',
+            list: [
+                { text: '用户列表', path: '#/users-list'+_search },  
+                { text: '添加用户'}
+            ]
+        },
+        '/users-update': {
+            title: '用户管理',
+            description: '用户更新',
+            list: [
+                { text: '用户列表', path: '#/users-list'+_search },
+                { text: '用户更新'}
+            ]
+        },
         '/movie-list': {
             title: '电影管理',
             description: '电影列表',

@@ -16,7 +16,7 @@ import singer_controller from "../controllers/singer/singer"
 import movie_controller from "../controllers/movie/movie"
 
 // 用户管理
-import users_controller from "../controllers/users/users"
+import userList_controller from "../controllers/userList/userList"
 
 // page-header 控制器
 import page_header_controller from '../controllers/page-header/page-header'
@@ -63,10 +63,10 @@ const _init = () => {
     router.route("/movie-update",movie_controller.update)
 
     //用户管理路由
-    router.route("/users-lead",users_controller.lead)
-    router.route("/users-list",users_controller.list)
-    router.route("/users-save",users_controller.save)
-    router.route("/users-update",users_controller.update)
+    router.route("/users-lead",userList_controller.lead)
+    router.route("/users-list",userList_controller.list)
+    router.route("/users-save",userList_controller.save)
+    router.route("/users-update",userList_controller.update)
 
     // 最高权限路由
     router.route("/performer",performer_controller.render)

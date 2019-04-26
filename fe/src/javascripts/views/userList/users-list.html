@@ -14,24 +14,23 @@
     </div>
     <!-- /.box-header -->
     <div class="box-body">
-      {{if data.items.length>0}}
+      {{if data.data.length>0}}
       <table class="table table-bordered users-list__tabel">
         <tr>
           <th style="width: 10px">#</th>
-          <th>用户头像</th>
-          <th>用户名称</th>
           <th>用户ID</th>
+          <th>用户名称</th>
           <th>用户电话</th>
+          <th>注册时间</th>
           <th style="width: 140px">操作</th>
         </tr>
-        {{ each data.items }}
+        {{ each data.data }}
         <tr data-id="{{ $value._id }}">
           <td>{{ $index + 1 }}</td>
-          <td><img width="50" height="50" src="http://localhost:3000{{$value.usersPic}}"
-              alt=""></td>
-          <td>{{ $value.userName }}           
-          <td>{{ $value.userId }}</td>
-          <td>{{ $value.userPhone }}</td>
+          <td>{{ $value._id || '' }}           
+          <td>{{ $value.userName || '' }}</td>
+          <td>{{ $value.userPhone || '' }}</td>
+          <td>{{ $value.signTime || '' }}</td>
           <!-- <td>{{ $value.usersType }}</td> -->
           <td>
             <button class="btn btn-sm btn-primary pos-update" posid="" pageno="" keywords=""><span class="fa fa-edit"></span>

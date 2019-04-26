@@ -1,9 +1,20 @@
 
 //提供列表数据
-const list = (page) => {
+// const list = (page) => {
+//     return $.ajax({
+//         url: '/api/v1/userList/listall', 
+//         data:page,
+//         success:(results) => {
+//            return results
+//         }
+//     })
+// }
+
+// 根据页数来返回数据
+const list = (_page) => {
     return $.ajax({
-        url: '/api/v1/users/list', 
-        data:page,
+        data:_page,
+        url: '/api/v1/userList/listPage', 
         success:(results) => {
            return results
         }
@@ -27,7 +38,7 @@ const save = () => {
 //listone
 const listone = (data)=>{
     return $.ajax({
-        url:'/api/v1/users/listone',
+        url:'/api/v1/userList/listone',
         data,
         success:(results)=>{
             return results
@@ -52,7 +63,7 @@ const update = () => {
 // remove
 const remove = (data)=>{
     return $.ajax({
-        url:'/api/v1/users/remove',
+        url:'/api/v1/userList/remove',
         data,
         type:'delete',
         success:(results)=>{

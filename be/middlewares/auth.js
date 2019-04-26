@@ -12,7 +12,7 @@ const userSigninAuth = (req, res, next) => {
 
         // 登录时间
         let _time =  (Date.now() / 1000) - decoded.iat
-        let _expires = 60 
+        let _expires = 6000 
         // 验证登录是否过期
         if ( _time > _expires ) {
             res.render('user', {

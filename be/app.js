@@ -16,6 +16,7 @@ var usersRouter = require("./routes/users");
 var adminRouter = require("./routes/admin");
 //用户
 var userRouter = require('./routes/user');
+var userListRouter = require('./routes/userList');
 
 
 // 应用程序
@@ -51,11 +52,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/api/'+ version +'/position', positionRouter);
 app.use("/api/"+version+"/singer",singerRouter);
 app.use('/api/'+ version +'/movie', movieRouter);
-app.use('/api/'+ version +'/users', usersRouter);
+app.use('/api/'+ version +'/user', userRouter);
 
 //注册路由
 app.use('/api/'+ version +'/admin', adminRouter);
-app.use('/api/'+ version +'/user', userRouter);
+app.use('/api/'+ version +'/userList', userListRouter);
 
 
 // catch 404 and forward to error handler

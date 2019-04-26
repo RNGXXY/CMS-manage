@@ -54,7 +54,6 @@ const remove = (data)=>{
     return $.ajax({
         url:'/api/v1/movie/remove',
         data,
-        type:'delete',
         success:(results)=>{
             return results
         }

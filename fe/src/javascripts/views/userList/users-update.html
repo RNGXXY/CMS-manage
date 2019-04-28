@@ -1,68 +1,50 @@
 <div class="box box-info users-update">
         <div class="box-header with-border">
-            <h3 class="box-title">添加用户信息</h3>
+            <h3 class="box-title">更改用户信息</h3>
         </div>
         <!-- /.box-header -->
         <!-- form start -->
         <form class="form-horizontal" id="update-users-form" enctype="multipart/form-data">
             <div class="box-body">
                 <div class="form-group">
-                    <label for="usersLogo" class="col-sm-2 control-label">用户头像</label>
+                    <label for="_id" class="col-sm-2 control-label">用户ID</label>
+    
                     <div class="col-sm-10">
-                        <input type="file"  name="usersLogo" id="usersLogo" />
-                        <img id="portrait" src="http://localhost:3000{{ data.usersLogo }}" style="width: 100px;height: 100px; margin-top: 20px" />
+                        <input type="text" class="form-control" name="_id" id="directorName"  value="{{ data._id || '' }}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="usersName" class="col-sm-2 control-label">用户名称</label>
+                    <label for="userName" class="col-sm-2 control-label">用户名称</label>
     
                     <div class="col-sm-10">
-                        <input required type="text" class="form-control" name="usersName" id="usersName" value="{{ data.usersName }}">
+                        <input required type="text" class="form-control" name="userName"  id="userName" value="{{ data.userName || '' }}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="directorName" class="col-sm-2 control-label">用户ID</label>
+                    <label for="userPhone" class="col-sm-2 control-label">用户电话</label>
     
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="directorName" id="directorName"  value="{{ data.directorName }}">
+                        <input type="text" class="form-control" name="userPhone" id="starName"  value="{{ data.userPhone || '' }}">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="starName" class="col-sm-2 control-label">用户电话</label>
+                    <label for="signTime" class="col-sm-2 control-label">注册时间</label>
     
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="starName" id="starName"  value="{{ data.starName }}">
-                    </div>
-                </div>
-                <!-- <div class="form-group">
-                    <label for="showTime" class="col-sm-2 control-label">上映时间</label>
-    
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" name="showTime" id="showTime"  value="{{ data.showTime }}">
+                        <input type="text" class="form-control" name="signTime" id="showTime" value="{{ data.signTime || '' }}">
                     </div>
                 </div>
                  <div class="form-group">
-                    <label for="language" class="col-sm-2 control-label">语言</label>
-    
+                    <label for="limitType" class="col-sm-2 control-label">限制级用户</label>
+                    
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" name="language" id="language"  value="{{ data.language }}">
-                    </div>
-                </div> -->
-                <div class="form-group">
-                    <label for="usersType" class="col-sm-2 control-label">类型</label>
-    
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" name="usersType" id="usersType" value="{{ data.usersType }}">
+                            <select name="limitType" style="width:200px;height:34px">
+                                <option value="{{data.limitType=='true'?'true':'false'}}">{{data.limitType=='true'?'是':'否'}}</option>
+                                <option value="{{data.limitType!='true'?'true':'false'}}">{{data.limitType!='true'?'是':'否'}}</option>
+                            </select>
+                        <!-- <input type="text" class="form-control" name="limitType" id="language"  value="{{ data.limitType ? '是':'否' || '否' }}"> -->
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="salary" class="col-sm-2 control-label">是否重新发布</label>
-    
-                    <div class="col-sm-10">
-                        <input type="checkbox"    name="republish" id="republish" >
-                    </div>
-                </div>
-                <input type="hidden" name = "id" value="{{data._id}}"> 
             </div>
     
             

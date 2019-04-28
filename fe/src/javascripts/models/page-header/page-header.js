@@ -34,6 +34,29 @@ const pageHeaderInfo = (url, prevUrl) => {
                 { text: '用户更新'}
             ]
         },
+        '/menu-list': {
+            title: '菜单管理',
+            description: '菜单列表',
+            list: [
+                { text: '菜单列表' }
+            ]
+        },
+        '/menu-save': {
+            title: '菜单管理',
+            description: '添加菜品',
+            list: [
+                { text: '菜单列表', path: '#/menu-list'+_search },  
+                { text: '添加菜品'}
+            ]
+        },
+        '/menu-update': {
+            title: '菜单管理',
+            description: '菜品更新',
+            list: [
+                { text: '菜单列表', path: '#/menu-list'+_search },
+                { text: '菜品更新'}
+            ]
+        },
         '/movie-list': {
             title: '电影管理',
             description: '电影列表',

@@ -17,10 +17,16 @@ var adminRouter = require("./routes/admin");
 //用户
 var userRouter = require('./routes/user');
 var userListRouter = require('./routes/userList');
+// 菜单管理
+var menuRouter = require('./routes/menu');
 
 
 // 应用程序
 var app = express();
+
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());//数据JSON类型
+app.use(bodyParser.urlencoded({ extended: false }));//解析post请求数据
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -57,6 +63,7 @@ app.use('/api/'+ version +'/user', userRouter);
 //注册路由
 app.use('/api/'+ version +'/admin', adminRouter);
 app.use('/api/'+ version +'/userList', userListRouter);
+app.use('/api/'+ version +'/menu', menuRouter);
 
 
 // catch 404 and forward to error handler

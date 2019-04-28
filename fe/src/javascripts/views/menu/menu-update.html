@@ -1,0 +1,57 @@
+<div class="box box-info menu-update">
+        <div class="box-header with-border">
+            <h3 class="box-title">更改用户信息</h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form class="form-horizontal" id="update-menu-form" enctype="multipart/form-data">
+            <div class="box-body">
+                <div class="form-group">
+                        <label for="imgLogo" class="col-sm-2 control-label">菜品logo</label>
+        
+                        <div class="col-sm-10">
+                            <input  type="file" name="imgLogo" id="imgLogo" />
+                            <img id="portrait" src="http://localhost:3000{{ data.imgLogo }}" style="width: 100px;height: 100px; margin-top: 20px" />
+        
+                        </div>
+                    </div>
+                <div class="form-group">
+                    <label for="_id" class="col-sm-2 control-label">菜品ID</label>
+    
+                    <div class="col-sm-10">
+                        <input type="text"  readonly="readonly" class="form-control" name="_id" id="directorName"  value="{{ data._id || '' }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="dishName" class="col-sm-2 control-label">菜品名称</label>
+
+                    <div class="col-sm-10">
+                        <input required type="text" class="form-control" name="dishName" id="dishName" value="{{ data.dishName || '' }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="dishNum" class="col-sm-2 control-label">菜品数量</label>
+    
+                    <div class="col-sm-10">
+                        <input required type="number" min="1" class="form-control" name="dishNum" id="dishNum" value="{{ data.dishNum || '' }}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="dishPrice"  class="col-sm-2 control-label">菜品单价</label>
+    
+                    <div class="col-sm-10"> 
+                        <input type="number" min="1" step="0.01" required class="form-control" name="dishPrice" id="dishPrice" value="{{ data.dishPrice || '' }}">
+                    </div>
+                </div>
+            </div>
+    
+            
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <button type="button" id="back" class="btn btn-default">返回列表</button>
+                <button type="submit" class="btn btn-info pull-right">提交</button>
+                <button type="reset" class="btn btn-default pull-right" style="margin-right: 15px">重置</button>
+            </div>
+            <!-- /.box-footer -->
+        </form>
+    </div>

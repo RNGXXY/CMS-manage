@@ -24,7 +24,8 @@ router.get('/listPage', userList_controller.listPage)
 router.get('/listall', userList_controller.listall)
 router.get('/listone', userList_controller.listone)
 router.post('/addUser',  userList_controller.addUser)
-router.get('/remove',  userList_controller.remove)
+router.post('/update',  userList_controller.update)
+router.delete('/remove',  userList_controller.remove)
 
 
 module.exports = router

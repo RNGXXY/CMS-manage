@@ -12,8 +12,9 @@ const handleToastByData = ( data, options = {} ) => {
     }
     if ( data.status == 200 ) {
         if (isReact)  toast('操作成功') 
-
         if ( success ) success(data.data);
+    }else  if ( data.status == 300 ) {
+        if (isReact)  toast(data.data.msg) 
     } else {
         if (isReact)  toast(errmsg) 
 

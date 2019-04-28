@@ -18,6 +18,9 @@ import movie_controller from "../controllers/movie/movie"
 // 用户管理
 import userList_controller from "../controllers/userList/userList"
 
+// 菜单管理
+import menu_controller from "../controllers/menu/menu"
+
 // page-header 控制器
 import page_header_controller from '../controllers/page-header/page-header'
 
@@ -67,6 +70,12 @@ const _init = () => {
     router.route("/users-list",userList_controller.list)
     router.route("/users-save",userList_controller.save)
     router.route("/users-update",userList_controller.update)
+
+    //用菜单管理路由
+    router.route("/menu-lead",menu_controller.lead)
+    router.route("/menu-list",menu_controller.list)
+    router.route("/menu-save",menu_controller.save)
+    router.route("/menu-update",menu_controller.update)
 
     // 最高权限路由
     router.route("/performer",performer_controller.render)

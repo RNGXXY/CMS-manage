@@ -11,6 +11,7 @@ var UserListModel = mongoose.model('userLists', new mongoose.Schema({
     userName: String,
     userPhone: Number,
     signTime: Number,
+    limitType: String,
 }));
 
 // 按页返回列表数据
@@ -44,7 +45,6 @@ const listPage = async ({ pageNo = 1, pageSize = 5, search = '' }) => {
             }
         }
     }).catch((err) => {
-        console.log(22)
         return false
     })
 }
@@ -121,18 +121,39 @@ const addUser = (body) => {
 }
 
 // 返回一个数据
-const listone = (phone) => {
-    return UserListModel.findOne({ userPhone: Number(phone) }).
+const listone = (id,phone='') => {
+    if (id){
+        return UserListModel.findById(id).
         then((results) => {     //返回数据库的数据
             return results
         }).
         catch((err) => {
             return false
         })
+    }
+    else if(!id && phone){
+        return UserListModel.find({userPhone:phone}).
+        then((results) => {     //返回数据库的数据
+            return results
+        }).
+        catch((err) => {
+            return false
+        })
+    }
+   
 }
 
-
-// //更新一个数据
+//更新一个数据
+const update =(body)=>{
+    //更新后把原来的图片先删掉
+        return UserListModel.update({ _id: body._id  }, {$set:{...body}}).then((results) => {
+        return results
+    }).catch((err) => {
+        return false
+    }) 
+} 
+ 
+// 删除一个数据
 // const update =async (body)=>{
 //     if ( !body.usersLogo ) delete body.usersLogo
 
@@ -155,7 +176,6 @@ const listone = (phone) => {
 
 //删除一条数据
 const remove = async ({ id, pageNo, pageSize })=>{
-    console.log(11,id)
     let _row = await listone({ id })    //用listone从数据库中获得一条数据的信息
     return UserListModel.deleteOne({ _id:id }).then( async (results)=>{
 
@@ -178,5 +198,6 @@ module.exports = {
     listall,
     addUser,
     listone,
+    update,
     remove
 }

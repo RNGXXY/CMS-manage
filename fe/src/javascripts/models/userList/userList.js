@@ -23,16 +23,26 @@ const list = (_page) => {
 
 
 // 提供保存数据
-const save = () => {
-    return new Promise((resolve) => {
-        $('.users-save #save-moive-form').ajaxSubmit({
-            url: '/api/v1/users/save',
-            type: 'POST',
-            success: (results) => {
-                resolve(results)
-            }
-        })
+const save = (data) => {
+    
+    return $.ajax({
+        url:'/api/v1/userList/addUser',
+        type: 'POST',
+        data,
+        success:(results)=>{
+            return results
+        }
     })
+
+    // return new Promise((resolve) => {
+    //     $('.users-save #save-moive-form').ajaxSubmit({
+    //         url: '/api/v1/users/addUser',
+    //         type: 'POST',
+    //         success: (results) => {
+    //             resolve(results)
+    //         }
+    //     })
+    // })
 }
 
 //listone
@@ -47,16 +57,14 @@ const listone = (data)=>{
 }
 
 //update
-const update = () => {
-    return new Promise((resolve) => {
-        $('.users-update #update-users-form').ajaxSubmit({
-            url: '/api/v1/users/update',
-            type: 'POST',
-            success: (results) => {
-                console.log(results)
-                resolve(results)
-            }
-        })
+const update = (data) => {
+    return $.ajax({
+        url:'/api/v1/userList/update',
+        type: 'POST',
+        data,
+        success:(results)=>{
+            return results
+        }
     })
 }
 

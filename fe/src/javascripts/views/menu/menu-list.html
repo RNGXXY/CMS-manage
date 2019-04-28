@@ -1,4 +1,4 @@
-<div class="box users-list">
+<div class="box menu-list">
     <div class="box-header with-border">
       <h3 class="box-title">
         <button id="addbtn" class="btn btn-block btn-success"><span class="fa fa-plus-circle"></span> 添加</button>
@@ -15,25 +15,27 @@
     <!-- /.box-header -->
     <div class="box-body">
       {{if data.data.length>0}}
-      <table class="table table-bordered users-list__tabel">
+      <table class="table table-bordered menu-list__tabel">
         <tr>
           <th style="width: 10px">#</th>
-          <th>用户ID</th>
-          <th>用户名称</th>
-          <th>用户电话</th>
-          <th>注册时间</th>
-          <th>限制级用户</th>
+          <th>菜品logo</th>
+          <th>菜品ID</th>
+          <th>菜品名称</th>
+          <th>菜品数量</th>
+          <th>菜品单价</th>
+          <th>更新时间</th>
           <th style="width: 140px">操作</th>
         </tr>
         {{ each data.data }}
         <tr data-id="{{ $value._id }}">
           <td>{{ $index + 1 }}</td>
+          <td><img width="50" height="50" src="http://localhost:3000{{$value.imgLogo}}"
+            alt=""></td>
           <td>{{ $value._id || '' }}           
-          <td>{{ $value.userName || '' }}</td>
-          <td>{{ $value.userPhone || '' }}</td>
-          <td>{{ $value.signTime || '' }}</td>
-          <td>{{ $value.limitType == 'true' ? '是' : '否' || '否' }}</td>
-          <!-- <td>{{ $value.usersType }}</td> -->
+          <td>{{ $value.dishName || '' }}</td>
+          <td>{{ $value.dishNum || '' }}</td>
+          <td>{{ $value.dishPrice || '' }}</td>
+          <td>{{ $value.updateTime || '' }}</td>
           <td>
             <button class="btn btn-sm btn-primary pos-update" posid="" pageno="" keywords=""><span class="fa fa-edit"></span>
               修改</button>
@@ -47,11 +49,11 @@
     </div>
     <div class="box-footer clearfix">
       <ul class="pagination pagination-sm no-margin pull-right">
-        <li><a href="#/users-list?search=<%= data.pageInfo.search %>&pageNo=<%= (data.pageInfo.pageNo > 1) ? data.pageInfo.pageNo - 1 : data.pageInfo.pageNo%>">&laquo;</a></li>
+        <li><a href="#/menu-list?search=<%= data.pageInfo.search %>&pageNo=<%= (data.pageInfo.pageNo > 1) ? data.pageInfo.pageNo - 1 : data.pageInfo.pageNo%>">&laquo;</a></li>
         <% for(var i = 0; i < data.pageInfo.totalPage; i++){ %>
-          <li class="{{if data.pageInfo.pageNo == i+1}}active{{/if}}"><a href="#/users-list?search=<%= data.pageInfo.search %>&pageNo=<%= i+1 %>"><%= i+1 %></a></li>
+          <li class="{{if data.pageInfo.pageNo == i+1}}active{{/if}}"><a href="#/menu-list?search=<%= data.pageInfo.search %>&pageNo=<%= i+1 %>"><%= i+1 %></a></li>
         <% } %>
-        <li><a href="#/users-list?search=<%= data.pageInfo.search %>&pageNo=<%= (data.pageInfo.pageNo < data.pageInfo.totalPage) ? ( ~~data.pageInfo.pageNo + 1) : data.pageInfo.totalPage  %>">&raquo;</a></li>
+        <li><a href="#/menu-list?search=<%= data.pageInfo.search %>&pageNo=<%= (data.pageInfo.pageNo < data.pageInfo.totalPage) ? ( ~~data.pageInfo.pageNo + 1) : data.pageInfo.totalPage  %>">&raquo;</a></li>
       </ul>
     </div>
     {{ else }}
@@ -60,7 +62,7 @@
             <!-- <h3 class="box-title">Blank Box</h3> -->
           </div>
           <div class="box-body">
-              当前没有用户信息，快去添加吧...
+              么得菜儿...
           </div>
           <!-- /.box-body -->
         </div>

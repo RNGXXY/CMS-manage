@@ -1,9 +1,9 @@
 
-//提供列表数据
-const list = (page) => {
+// 根据页数来返回数据
+const list = (_page) => {
     return $.ajax({
-        url: '/api/v1/movie/list', 
-        data:page,
+        data:_page,
+        url: '/api/v1/menu/listPage', 
         success:(results) => {
            return results
         }
@@ -14,9 +14,11 @@ const list = (page) => {
 // 提供保存数据
 const save = () => {
     return new Promise((resolve) => {
-        $('.movie-save #save-moive-form').ajaxSubmit({
-            url: '/api/v1/movie/save',
+        $('.menu-save #save-menu-form').ajaxSubmit({
+            url: '/api/v1/menu/addData',
             type: 'POST',
+            semantic:true,
+            resetForm:true,     //成功提交后，重置所有表单元素的值 
             success: (results) => {
                 resolve(results)
             }
@@ -27,7 +29,7 @@ const save = () => {
 //listone
 const listone = (data)=>{
     return $.ajax({
-        url:'/api/v1/movie/listone',
+        url:'/api/v1/menu/listone',
         data,
         success:(results)=>{
             return results
@@ -37,10 +39,20 @@ const listone = (data)=>{
 
 //update
 const update = () => {
+    // return $.ajax({
+    //     url:'/api/v1/menu/update',
+    //     type: 'POST',
+    //     data,
+    //     success:(results)=>{
+    //         return results
+    //     }
+    // })
     return new Promise((resolve) => {
-        $('.movie-update #update-movie-form').ajaxSubmit({
-            url: '/api/v1/movie/update',
+        $('.menu-update #update-menu-form').ajaxSubmit({
+            url: '/api/v1/menu/update',
             type: 'POST',
+            semantic:true,
+            // resetForm:true,     //成功提交后，重置所有表单元素的值 
             success: (results) => {
                 resolve(results)
             }
@@ -51,8 +63,9 @@ const update = () => {
 // remove
 const remove = (data)=>{
     return $.ajax({
-        url:'/api/v1/movie/remove',
+        url:'/api/v1/menu/remove',
         data,
+        type:'delete',
         success:(results)=>{
             return results
         }

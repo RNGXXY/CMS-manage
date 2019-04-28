@@ -14,7 +14,6 @@ const lead =(req,res)=>{
 
 //list视图
 const list = async(req,res,next)=>{
-    console.log(11,req.query)
     req.query = req.query || {} // 防止没有参数的时候，req.query为null
     let _page = { // 页面信息， 当点击了分页器按钮后，页面url就会变化，然后list控制器就会重新执行，重新获取数据再渲染
         pageNo: req.query.pageNo || 1,
@@ -36,6 +35,7 @@ const list = async(req,res,next)=>{
 
 //list的事件绑定
 const bindListEvent = (_page)=>{
+     //跳转到添加页面
     $('.users-list #addbtn').on('click',function(){
         //添加按钮点击跳转到添加save路由  
         bus.emit('go','/users-save')
@@ -73,21 +73,22 @@ const bindListEvent = (_page)=>{
 const handleRemoveusers = async function(_page){
     let id = $(this).parents('tr').data('id')
     let _data = await userList_model.remove({ id:id,..._page })
-   // 如果此页种只有一条数据，说明删除之后需要跳转到前一页 
+    this.parentNode.parentNode.remove()
+    // 如果此页种只有一条数据，说明删除之后需要跳转到前一页 
     // 删除的时候此页还有多少条数据
     // let trs = $('.users-list__tabel tr[data-id]')
     // 如果只剩一个，将pageNo-1
     // let _pageNo = trs.length > 1 ? _page.pageNo : (_page.pageNo - (_page.pageNo > 1 ? 1 : 0))
     
-    // handleToastByData(_data, {
-    //     isReact: false,
-    //     success: (data) => {
-    //         let _pageNo = _page.pageNo
-    //         _pageNo -= data.isReact ? 1 : 0
-    //         // 删除成功后，i依然需要将pageNo带上，否则，删除后，重新渲染的时候会回到默认的第一页
-    //         bus.emit('go', '/users-list?pageNo='+_pageNo+'&_='+data.removeId+'&search='+_page.search)
-    //     }
-    // })
+    handleToastByData(_data, {
+        isReact: false,
+        success: (data) => {
+            let _pageNo = _page.pageNo
+            _pageNo -= data.isReact ? 1 : 0
+            // 删除成功后，i依然需要将pageNo带上，否则，删除后，重新渲染的时候会回到默认的第一页
+            bus.emit('go', '/users-list?pageNo='+_pageNo+'&_='+data.removeId+'&search='+_page.search)
+        }
+    })
 }
 
 
@@ -106,14 +107,14 @@ const bindSaveEvent = ()=>{
     $('.users-save #back').on('click',function(){
         bus.emit('go','/users-list')
     })
-    $('.users-save #save-moive-form').submit(handleSaveSubmit)
+    $('.users-save #save-user-form').submit(handleSaveSubmit)
     
-    $("#usersLogo").on('change',function(){
-        let imgdom = $("#portrait");
-        let imgurl = window.URL.createObjectURL(this.files[0]);
-        imgdom.attr('src',imgurl)
-        imgdom.show()
-    })
+    // $("#usersLogo").on('change',function(){
+    //     let imgdom = $("#portrait");
+    //     let imgurl = window.URL.createObjectURL(this.files[0]);
+    //     imgdom.attr('src',imgurl)
+    //     imgdom.show()
+    // })
 }
 
 // 开关防止多次提交
@@ -127,12 +128,16 @@ const handleSaveSubmit =  async function(e){
     _isLoading = true
     // 拿到form的数据
     // let _params = qs.parse($(this).serialize())
-
-    let result = await userList_model.save()
+    var d = {};
+    var t = $(this).serializeArray();
+    $.each(t, function() {
+      d[this.name] = this.value;
+    });
+    let result = await userList_model.save(d)
     
     _isLoading = false
 
-    handleToastByData(result)
+    handleToastByData(JSON.parse(result))
     // handleToastByData(result, { isReact: false, success: () => {
     //     bus.emit('go', '/users-list')
     // }})
@@ -143,7 +148,7 @@ const handleSaveSubmit =  async function(e){
 const update = async (req,res)=>{
     let { id } = req.body;
     let html = template.render(users_update_tempalte, {
-        data: (await userList_model.listone({ id })).data  // 获取到列表数据
+        data: JSON.parse(await userList_model.listone({ id })).data  // 获取到列表数据
     })
     //根据这个id获取数据
     res.render(html)
@@ -170,11 +175,14 @@ const bindUpdateEvent =()=>{
 //update的表单提交
 const handleUpdateSubmit = async function(e){
     e.preventDefault();
-    //用了一个空的input来保存了id
-    // let _datastr = $(this).serialize()
-    // let _data = qs.parse(_datastr)
-    let _results = await userList_model.update()  
-    handleToastByData(_results)
+    // from表单数据
+    var d = {};
+    var t = $(this).serializeArray();
+    $.each(t, function() {
+      d[this.name] = this.value;
+    });
+    let _results = await userList_model.update(d) 
+    handleToastByData(JSON.parse(_results))
 }
 
 export default {

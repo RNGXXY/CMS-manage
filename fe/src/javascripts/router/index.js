@@ -21,6 +21,9 @@ import userList_controller from "../controllers/userList/userList"
 // 菜单管理
 import menu_controller from "../controllers/menu/menu"
 
+// 订单管理
+import orderList_controller from "../controllers/orderList/orderList"
+
 // page-header 控制器
 import page_header_controller from '../controllers/page-header/page-header'
 
@@ -71,11 +74,15 @@ const _init = () => {
     router.route("/users-save",userList_controller.save)
     router.route("/users-update",userList_controller.update)
 
-    //用菜单管理路由
+    //菜单管理路由
     router.route("/menu-lead",menu_controller.lead)
     router.route("/menu-list",menu_controller.list)
     router.route("/menu-save",menu_controller.save)
     router.route("/menu-update",menu_controller.update)
+
+    //订单管理路由
+    router.route("/orderList-lead",orderList_controller.lead)
+    router.route("/orderList-list",orderList_controller.list)
 
     // 最高权限路由
     router.route("/performer",performer_controller.render)

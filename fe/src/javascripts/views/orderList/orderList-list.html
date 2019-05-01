@@ -1,0 +1,75 @@
+<div class="box orderList-list">
+    <div class="box-header with-border">
+      <h3 class="box-title">
+        <button id="addbtn" class="btn btn-block btn-success"><span class="fa fa-plus-circle"></span> 添加</button>
+      </h3>
+      <div class="box-tools">
+        <div class="input-group input-group-sm" style="width: 150px;">
+          <input type="text" id="keywords" value="" name="pos_search" class="form-control pull-right" placeholder="搜索">
+          <div class="input-group-btn">
+            <button type="button" id="possearch" class="btn btn-default"><i class="fa fa-search"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+      {{if data.data.length>0}}
+      <table class="table table-bordered orderList-list__tabel">
+        <tr>
+          <th style="width: 10px">#</th>
+          <th>订单ID</th>
+          <th>用户名</th>
+          <th>订单时间</th>
+          <th>订单内容</th>
+        </tr>
+        {{ each data.data }}
+        <tr data-id="{{ $value._id }}">
+          <td>{{ $index + 1 }}</td>
+          <td>{{ $value._id || '' }}           
+          <td>{{ $value.userName || '' }}</td>
+          <td>{{ $value.orderTime || '' }}</td>
+          <td>
+            <div class="row">
+              <span class='col-md-4'>商家名称</span>
+              <span class='col-md-4'>菜品名称</span>
+              <span class='col-md-2'>菜品数</span>
+              <span class='col-md-2'>单价</span>
+            </div>
+            <hr style="margin:3px 0"/>
+            {{ each $value.orderContent }}
+              <div class="row">
+                <span class='col-md-4'>{{$value.shopName}}</span>
+                <span class='col-md-4'>{{$value.dishName}}</span>
+                <span class='col-md-2'>{{$value.dishNum}}</span>
+                <span class='col-md-2'>￥{{$value.dishPrice}}</span>
+              </div>
+            {{ /each }}
+          </td>
+        </tr>
+        {{ /each }}
+      </table>
+      
+    </div>
+    <div class="box-footer clearfix">
+      <ul class="pagination pagination-sm no-margin pull-right">
+        <li><a href="#/orderList-list?search=<%= data.pageInfo.search %>&pageNo=<%= (data.pageInfo.pageNo > 1) ? data.pageInfo.pageNo - 1 : data.pageInfo.pageNo%>">&laquo;</a></li>
+        <% for(var i = 0; i < data.pageInfo.totalPage; i++){ %>
+          <li class="{{if data.pageInfo.pageNo == i+1}}active{{/if}}"><a href="#/orderList-list?search=<%= data.pageInfo.search %>&pageNo=<%= i+1 %>"><%= i+1 %></a></li>
+        <% } %>
+        <li><a href="#/orderList-list?search=<%= data.pageInfo.search %>&pageNo=<%= (data.pageInfo.pageNo < data.pageInfo.totalPage) ? ( ~~data.pageInfo.pageNo + 1) : data.pageInfo.totalPage  %>">&raquo;</a></li>
+      </ul>
+    </div>
+    {{ else }}
+      <div class="box box-default">
+          <div class="box-header with-border">
+            <!-- <h3 class="box-title">Blank Box</h3> -->
+          </div>
+          <div class="box-body">
+              么得菜儿...
+          </div>
+          <!-- /.box-body -->
+        </div>
+      {{ /if }}
+  </div>
+  <!-- /.box -->

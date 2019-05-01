@@ -8,10 +8,10 @@ const PATH = require('path') // 路径
 // usersList
 var MenuModel = mongoose.model('menus', new mongoose.Schema({
     //定义集合中存储的数据名，数据格式
-    dishId: Number,
+    dishId: String,
     imgLogo: String,
     dishName: String,
-    dishNum: Number,
+    dishNum: String,
     dishPrice:Number,
     updateTime: String,
     timestamp:String
@@ -104,7 +104,11 @@ const addData = (body) => {
 
 
 //更新一个数据
-const update = async (body)=>{
+const update = async (body,aa)=>{
+    // if(isJson) body= JSON.parse(isJson=false)
+    if(aa == 'true'){
+        body = JSON.parse(body)
+    }
     //更新后把原来的图片先删掉
     if ( !body.imgLogo ) delete body.imgLogo
     // 更新时间
@@ -118,6 +122,7 @@ const update = async (body)=>{
     if (_row.imgLogo &&_row.imgLogo != default_logo) {
         fs.removeSync(PATH.resolve(__dirname,'../public'+_row.imgLogo))    
     }
+    // return MenuModel.updateOne({ _id: body._id  }, {$set:{...body}}).then((results) => {
     return MenuModel.updateOne({ _id: body._id  }, {$set:{...body}}).then((results) => {
     return results
     }).catch((err) => {

@@ -57,6 +57,13 @@ const pageHeaderInfo = (url, prevUrl) => {
                 { text: '菜品更新'}
             ]
         },
+        '/orderList-list': {
+            title: '订单管理',
+            description: '订单列表',
+            list: [
+                { text: '订单列表' }
+            ]
+        },
         '/movie-list': {
             title: '电影管理',
             description: '电影列表',

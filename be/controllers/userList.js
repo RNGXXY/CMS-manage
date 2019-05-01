@@ -30,7 +30,7 @@ const listone = async (req, res) => {
 const addUser = async (req, res) => {
     // 查询数据库中有无此用户
     let resData = await userList_model.listone('',req.body.userPhone)
-    if(resData==null || !resData){
+    if(resData==null || !resData || !resData.length){
         req.body.userName = userName
         req.body.limitType = req.body.limitType ?  req.body.limitType : 'false'
         let _data = await userList_model.addUser(req.body)        //post用req.body
@@ -38,6 +38,7 @@ const addUser = async (req, res) => {
     }else{
         console.log('用户已存在')
         let _data = {}
+        _data.data = resData[0]
         _data.code = 300
         _data.msg = '用户已存在'
         handleData(_data,res,'userList')  

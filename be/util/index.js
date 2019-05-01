@@ -15,7 +15,6 @@ const handleData = (data, res, template, callbacks = {}) => {
     } else {
         success()
         if(data.code && data.code == 300){
-            console.log(data)
             response.call(res, { template, code: 300, data:  JSON.stringify(data)})
             return
         }

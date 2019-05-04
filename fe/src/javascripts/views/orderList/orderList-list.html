@@ -40,9 +40,9 @@
             {{ each $value.orderContent }}
               <div class="row">
                 <span class='col-md-4'>{{$value.shopName}}</span>
-                <span class='col-md-4'>{{$value.dishName}}</span>
-                <span class='col-md-2'>{{$value.dishNum}}</span>
-                <span class='col-md-2'>￥{{$value.dishPrice}}</span>
+                <span class='col-md-4'>{{$value.name}}</span>
+                <span class='col-md-2'>{{$value.count}}</span>
+                <span class='col-md-2'>￥{{$value.price}}</span>
               </div>
             {{ /each }}
           </td>

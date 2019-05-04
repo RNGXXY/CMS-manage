@@ -1,0 +1,111 @@
+*{
+ padding: 0;
+ margin: 0;   
+}
+
+html,body{
+    width:100%;
+    height: 100%;
+}
+.payWrap{
+    width:100%;
+    height: 100%;
+    display: flex;  
+    flex-direction: column;
+    background-image: url('./img/paybj.jpg');
+    background-size: contain;
+}
+.payWrap >div{
+    width: 100%;
+}
+.formWrap{
+    width: 100%;
+}
+.logoWrap{
+    height: 30%;
+    display: flex;  
+    align-items: center;
+    justify-content: center;
+}
+.logo{
+    width: 100px;
+    height: 100px;
+    border-radius: 22px;
+}
+.title{
+    height: 100px;
+    width: 200px;
+    line-height: 100px;
+    text-align: center;
+    font-size: 40px;
+    font-family: '楷体';
+    color:white;
+}
+.showWrap{
+    height: 30%;
+    display: flex;  
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+}
+.formWrap{
+    display: flex;  
+    align-items: center;
+    justify-content: space-around;
+}
+.payNum{
+    width:200px;
+    height:50px;
+    font-size: 30px;
+    border:1px dotted;
+    border-radius: 10px;
+    outline:none;
+    padding: 0 10px;
+}
+[type='reset']{
+    height:40px;
+    width:60px;
+    outline:none;
+    background: skyblue;
+    border-radius: 10px;
+    color: blanchedalmond;
+    font-size: 18px;
+}
+.workWrap{
+    height: 40%;
+    display: flex;
+    flex-wrap: wrap;
+}
+.keyBoard{
+    display: flex;
+    width: 25%;
+    height:33%;
+    border: 1px solid gray;
+    background: rgba(255,255,255,0.6);
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    color: blue;
+    font-size: 20px;
+} 
+
+.inform{
+    height: 30%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.paySuccess,.payFail{
+    padding: 10px 20px;
+    border-radius: 10px;
+    background: green;
+    position: absolute;
+    display: none;
+    /* visibility: hidden; */
+}
+
+.payFail{
+    background: red;
+}

@@ -21,7 +21,8 @@ var userListRouter = require('./routes/userList');
 var menuRouter = require('./routes/menu');
 // 订单管理
 var orderListRouter = require('./routes/orderList');
-
+// 地址管理
+var addressRouter = require('./routes/address');
 
 // 应用程序
 var app = express();
@@ -67,6 +68,7 @@ app.use('/api/'+ version +'/admin', adminRouter);
 app.use('/api/'+ version +'/userList', userListRouter);
 app.use('/api/'+ version +'/menu', menuRouter);
 app.use('/api/'+ version +'/orderList', orderListRouter);
+app.use('/api/'+ version +'/address', addressRouter);
 
 
 // catch 404 and forward to error handler

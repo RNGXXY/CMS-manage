@@ -145,8 +145,7 @@ const listone = (id,phone='') => {
 
 //更新一个数据
 const update =(body)=>{
-    //更新后把原来的图片先删掉
-        return UserListModel.update({ _id: body._id  }, {$set:{...body}}).then((results) => {
+    return UserListModel.update({ _id: body._id  }, {$set:{...body}}).then((results) => {
         return results
     }).catch((err) => {
         return false

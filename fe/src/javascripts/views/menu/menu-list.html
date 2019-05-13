@@ -19,7 +19,7 @@
         <tr>
           <th style="width: 10px">#</th>
           <th>菜品logo</th>
-          <th>菜品ID</th>
+          <th>商家ID</th>
           <th>菜品名称</th>
           <th>菜品数量</th>
           <th>菜品单价</th>
@@ -31,9 +31,9 @@
           <td>{{ $index + 1 }}</td>
           <td><img width="50" height="50" src="http://localhost:3000{{$value.imgLogo}}"
             alt=""></td>
-          <td>{{ $value._id || '' }}           
+          <td>{{ $value.shopId || '' }}           
           <td>{{ $value.dishName || '' }}</td>
-          <td>{{ $value.dishNum || '' }}</td>
+          <td class="dishNum">{{ $value.dishNum || '' }}</td>
           <td>{{ $value.dishPrice || '' }}</td>
           <td>{{ $value.updateTime || '' }}</td>
           <td>

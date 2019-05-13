@@ -8,6 +8,7 @@ const PATH = require('path') // 路径
 // usersList
 var MenuModel = mongoose.model('menus', new mongoose.Schema({
     //定义集合中存储的数据名，数据格式
+    shopId:String,
     dishId: String,
     imgLogo: String,
     dishName: String,
@@ -72,6 +73,16 @@ const listall = (_query = {}) => {
 const listone = (id) => {
     return MenuModel.findById(id).
         then((results) => {     //返回数据库的数据
+            return results
+        }).
+        catch((err) => {
+            return false
+        })
+}
+
+const listByShop = ({shopId}) =>{
+    return MenuModel.find({shopId:shopId}).sort({ timestamp: -1 })
+        .then((results) => {     //返回数据库的数据
             return results
         }).
         catch((err) => {
@@ -153,6 +164,7 @@ module.exports = {
     listPage,
     listall,
     listone,
+    listByShop,
     addData,
     update,
     remove

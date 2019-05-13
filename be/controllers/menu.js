@@ -26,6 +26,12 @@ const listone = async (req, res) => {
     handleData(_data, res, 'menu') //'users'是字符串模板，后端采用的是ejx模板
 }
 
+// listByShop
+const listByShop = async (req, res) => {
+    let _data = await menu_model.listByShop(req.body)
+    handleData(_data, res, 'menu') //'users'是字符串模板，后端采用的是ejx模板
+}
+
 // 添加
 const addData = async (req, res) => {
     // 查询数据库中有无此用户
@@ -52,6 +58,7 @@ module.exports = {
     listPage,
     listall,
     listone,
+    listByShop,
     addData,
     update,
     remove

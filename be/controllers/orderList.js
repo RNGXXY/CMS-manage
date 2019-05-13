@@ -51,10 +51,23 @@ const onChangeMenu = (menuList,orderContent,) => {
     })
 }
 
+// 修改订单
+const update = async (req, res)=>{
+    let _data = await orderList_model.update(req.body)  
+    handleData(_data,res,'orderList')   
+}
+
+// 取消订单
+const remove = async (req, res)=>{
+    let _data = await orderList_model.remove(req.body)  
+    handleData(_data,res,'orderList')   
+}
 
 module.exports = {
     listPage,
     listall,
     listByUser,
     addData,
+    update,
+    remove
 }

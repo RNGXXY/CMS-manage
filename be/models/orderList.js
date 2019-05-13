@@ -13,7 +13,9 @@ var OrderListModel = mongoose.model('orderLists', new mongoose.Schema({
     userName: String,
     orderTime: String,
     timestamp:String,
-    orderContent:Array
+    orderContent:Array,
+    isReceive:Boolean,
+    addressContent:String
 }));
 
 // 按页返回列表数据
@@ -84,7 +86,8 @@ const addData = (body) => {
     return new OrderListModel({
         ...body,
         orderTime: onHandleTime(_timestamp),
-        timestamp:_timestamp
+        timestamp:_timestamp,
+        isReceive:false
     })
         .save() //保存数据到数据库
         .then((result) => {
@@ -95,11 +98,48 @@ const addData = (body) => {
         })
 }
 
+// 返回一个数据
+const listone = (id) => {
+    return OrderListModel.findById(id)
+        .then((results) => {     //返回数据库的数据
+            return results
+        })
+        .catch((err) => {
+            return false
+        })
+}
+
+
+const update = (body)=>{
+    let {_id} = body  
+    let _row = listone({_id})
+    _row.isReceive = true
+    return OrderListModel.updateOne({ _id: body._id  }, {$set:{..._row}})
+    .then((results) => {
+        return results
+    })
+    .catch((err) => {
+        return "false"
+    }) 
+}
+
+
+//删除一条数据
+const remove = async ({ _id})=>{
+    return OrderListModel.deleteOne({ _id:_id }).then( async (results)=>{
+        return results
+    }).catch((err)=>{
+        return false
+    })
+}
 
 
 module.exports = {
+    listone,
     listPage,
     listall,
     listByUser,
     addData,
+    update,
+    remove
 }

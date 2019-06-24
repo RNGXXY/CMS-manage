@@ -9,8 +9,8 @@ var UserListModel = mongoose.model('userLists', new mongoose.Schema({
     //定义集合中存储的数据名，数据格式
     userId: Number,
     userName: String,
-    userPhone: Number,
-    signTime: Number,
+    userPhone: String,
+    signTime: String,
     limitType: String,
 }));
 
